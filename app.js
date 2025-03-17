@@ -1,12 +1,5 @@
 // Main application script for Circular Time Statistics Visualization
 document.addEventListener('DOMContentLoaded', function() {
-  // Show loading indicator
-  const loadingIndicator = document.createElement('div');
-  loadingIndicator.id = 'loadingSpinner';
-  loadingIndicator.className = 'loading';
-  loadingIndicator.textContent = 'Loading data';
-  document.getElementById('root').appendChild(loadingIndicator);
-
   // Load data
   fetch('data.json')
     .then(response => {
