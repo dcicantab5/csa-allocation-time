@@ -1,6 +1,5 @@
 // This makes the data available globally as circularStatsData
-
-const circularStatsData = {
+var circularStatsData = {
   "summary": {
     "meanDirection": {
       "radians": 3.09,
