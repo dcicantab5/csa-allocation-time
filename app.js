@@ -1,4 +1,4 @@
-// Main application script for the Circular Statistics Visualization
+// Main application script for the Circular Statistics Visualisation
 // Uses React for rendering and expects circularStatsData to be defined globally
 
 // Create a React component for the circular statistics rose chart
