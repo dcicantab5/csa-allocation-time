@@ -1,464 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ETD Circular Statistical Analysis</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      color: #333;
-      line-height: 1.6;
-      background-color: #fff;
-      padding: 20px 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circular Activity Analysis</title>
+    <meta name="description" content="Interactive visualization of circular statistics and time-based activity patterns">
     
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      font-weight: 500;
-    }
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
     
-    .nav-tabs {
-      margin-bottom: 30px;
-      justify-content: center;
-      border-bottom: 1px solid #dee2e6;
-    }
+    <!-- Font -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    .nav-tabs .nav-link {
-      border-radius: 0.5rem 0.5rem 0 0;
-      padding: 8px 20px;
-      font-weight: 500;
-      color: #495057;
-      margin-right: 5px;
-      background-color: #f0f0f0;
-      border: 1px solid #dee2e6;
-    }
-    
-    .nav-tabs .nav-link.active {
-      background-color: #4361ee;
-      color: white;
-      border-color: #4361ee;
-    }
-    
-    .tab-content {
-      padding: 20px 0;
-    }
-    
-    .chart-container {
-      width: 100%;
-      height: 400px;
-      position: relative;
-      margin-bottom: 30px;
-    }
-    
-    .chart-container-small {
-      width: 100%;
-      height: 300px;
-      position: relative;
-      margin-bottom: 30px;
-    }
-    
-    .section-title {
-      margin-bottom: 20px;
-      font-weight: 500;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 10px;
-    }
-    
-    table {
-      width: 100%;
-      margin-bottom: 30px;
-      border-collapse: collapse;
-    }
-    
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border: 1px solid #ddd;
-    }
-    
-    th {
-      background-color: #f8f9fa;
-      font-weight: 500;
-    }
-    
-    ul {
-      padding-left: 20px;
-    }
-    
-    li {
-      margin-bottom: 8px;
-    }
-    
-    .stat-methods {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #eee;
-      color: #666;
-    }
-    
-    #loadingSpinner {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    
-    .time-block-table {
-      margin-bottom: 30px;
-    }
-    
-    .observations {
-      margin-top: 30px;
-    }
-    
-    footer {
-      margin-top: 40px;
-      color: #777;
-      text-align: center;
-      font-size: 0.9rem;
-    }
-    
-    .highlights {
-      background-color: #f8f9fa;
-      border-left: 4px solid #4361ee;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-    
-    .day-stats-card {
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    
-    .day-stats-header {
-      background-color: #f8f9fa;
-      padding: 10px 15px;
-      border-bottom: 1px solid #ddd;
-    }
-    
-    .day-stats-body {
-      padding: 15px;
-    }
-    
-    .key-metric {
-      display: inline-block;
-      margin-right: 20px;
-      margin-bottom: 10px;
-    }
-    
-    .key-metric-value {
-      font-size: 1.2rem;
-      font-weight: 500;
-      color: #4361ee;
-    }
-    
-    .key-metric-label {
-      font-size: 0.8rem;
-      color: #666;
-    }
-  </style>
+    <!-- D3.js for SVG visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 </head>
 <body>
-  <div id="loadingSpinner">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-  </div>
+    <header>
+        <div class="container">
+            <h1>Circular Activity Analysis</h1>
+            <p class="subtitle">Interactive visualization of time-based patterns</p>
+        </div>
+    </header>
 
-  <div class="container">
-    <h1>ETD Circular Statistical Analysis</h1>
-    
-    <ul class="nav nav-tabs" id="analysisTab" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="hourly-tab" data-bs-toggle="tab" data-bs-target="#hourly" type="button" role="tab" aria-controls="hourly" aria-selected="false">Hourly Analysis</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="timeblocks-tab" data-bs-toggle="tab" data-bs-target="#timeblocks" type="button" role="tab" aria-controls="timeblocks" aria-selected="false">Time Blocks</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily" type="button" role="tab" aria-controls="daily" aria-selected="false">Daily Patterns</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="circular-tab" data-bs-toggle="tab" data-bs-target="#circular" type="button" role="tab" aria-controls="circular" aria-selected="false">Circular Statistics</button>
-      </li>
-    </ul>
-    
-    <div class="tab-content" id="analysisTabContent">
-      <!-- Overview Tab -->
-      <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="highlights">
-              <h3 class="section-title">Key Highlights</h3>
-              <ul id="overviewHighlights">
-                <!-- Will be populated by JavaScript -->
-              </ul>
+    <main class="container">
+        <section class="intro">
+            <h2>Temporal Analysis Dashboard</h2>
+            <p>This interactive dashboard visualizes time-based activity patterns using circular statistics. 
+            Explore hourly distribution patterns, identify peak times, and analyze daily variations.</p>
+        </section>
+
+        <section class="visualization-container">
+            <div class="controls">
+                <div class="control-group">
+                    <label for="view-mode">View Mode:</label>
+                    <div class="button-group">
+                        <button id="view-overall" class="selected">Hourly</button>
+                        <button id="view-blocks">Time Blocks</button>
+                        <button id="view-daily">By Day</button>
+                    </div>
+                </div>
+                
+                <div class="control-group day-selector" style="display: none;">
+                    <label for="day-select">Day:</label>
+                    <select id="day-select">
+                        <option value="all">All Days</option>
+                        <!-- Days will be populated via JavaScript -->
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label for="color-scheme">Color Scheme:</label>
+                    <select id="color-scheme">
+                        <option value="blues">Blues</option>
+                        <option value="purples">Purples</option>
+                        <option value="greens">Greens</option>
+                        <option value="oranges">Oranges</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <button id="toggle-labels" class="toggle-button">
+                        <i class="fas fa-tag"></i> Toggle Labels
+                    </button>
+                </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="peakActivityChart"></canvas>
+            
+            <div id="chart-container">
+                <!-- SVG will be inserted here by JavaScript -->
             </div>
-          </div>
-        </div>
-        
-        <h3 class="section-title">Mean Arrival Time Analysis</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <table>
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
-              <tbody id="meanDirectionTable">
-                <!-- Will be populated by JavaScript -->
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="confidenceIntervalChart"></canvas>
+            
+            <div id="selected-details" class="details-panel" style="display: none;">
+                <!-- Selected segment details will be shown here -->
             </div>
-          </div>
-        </div>
+        </section>
         
-        <h3 class="section-title">Uniformity Tests</h3>
-        <p>These tests determine if arrival times are evenly distributed throughout the day or clustered around certain hours.</p>
-        <table>
-          <thead>
-            <tr>
-              <th>Test</th>
-              <th>Statistic</th>
-              <th>p-Value</th>
-              <th>Interpretation</th>
-            </tr>
-          </thead>
-          <tbody id="uniformityTestsTable">
-            <!-- Will be populated by JavaScript -->
-          </tbody>
-        </table>
-        
-        <h3 class="section-title">Quality Improvement Recommendations</h3>
-        <ul id="recommendationsList">
-          <!-- Will be populated by JavaScript -->
-        </ul>
-        
-        <div class="stat-methods">
-          <h3 class="section-title">Statistical Methods:</h3>
-          <ol>
-            <li>Circular Statistics: Statistical methods designed for cyclical data (like hours of day) where 0 and 24 are adjacent values.</li>
-            <li>Mean Direction: The average time of day for arrivals, calculated using vector methods to account for the circular nature of time.</li>
-            <li>Concentration Parameter (kappa): Measures how clustered the times are around the mean direction.</li>
-            <li>Rayleigh Test: Tests if a sample of circular data differs significantly from a uniform distribution.</li>
-            <li>Hodges-Ajne Test: Another uniformity test that is robust against various alternative distributions.</li>
-          </ol>
-        </div>
-      </div>
-      
-      <!-- Hourly Analysis Tab -->
-      <div class="tab-pane fade" id="hourly" role="tabpanel" aria-labelledby="hourly-tab">
-        <h3 class="section-title">Hourly Distribution of Arrivals</h3>
-        <p>This analysis shows how patient arrivals are distributed across the 24-hour day cycle.</p>
-        
-        <div class="chart-container">
-          <canvas id="hourlyDistributionChart"></canvas>
-        </div>
-        
-        <h3 class="section-title">Peak Hours</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <table>
-              <thead>
-                <tr>
-                  <th>Time Slot</th>
-                  <th>Count</th>
-                  <th>Percentage</th>
-                </tr>
-              </thead>
-              <tbody id="peakHoursTable">
-                <!-- Will be populated by JavaScript -->
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="peakHoursChart"></canvas>
+        <section class="statistics-panel">
+            <h3>Statistical Summary</h3>
+            <div class="stats-grid">
+                <div class="stats-column">
+                    <div class="stat-item">
+                        <span class="stat-label">Mean Time:</span>
+                        <span id="stat-mean-time" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Concentration (R):</span>
+                        <span id="stat-concentration" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Circular Variance:</span>
+                        <span id="stat-variance" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Occurrences:</span>
+                        <span id="stat-total" class="stat-value">-</span>
+                    </div>
+                </div>
+                <div class="stats-column">
+                    <div class="stat-item">
+                        <span class="stat-label">Peak Activity:</span>
+                        <span id="stat-peak" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Peak Block:</span>
+                        <span id="stat-peak-block" class="stat-value">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Uniformity Test:</span>
+                        <span id="stat-uniformity" class="stat-value">-</span>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        
-        <h3 class="section-title">Observations and Implications</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <h4>Key Observations</h4>
-            <ul id="hourlyObservations">
-              <!-- Will be populated by JavaScript -->
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <h4>Operational Implications</h4>
-            <ul id="hourlyImplications">
-              <!-- Will be populated by JavaScript -->
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Time Blocks Tab -->
-      <div class="tab-pane fade" id="timeblocks" role="tabpanel" aria-labelledby="timeblocks-tab">
-        <h3 class="section-title">Time Block Analysis</h3>
-        <p>Patient arrivals grouped into 4-hour blocks to identify broader patterns throughout the day.</p>
-        
-        <div class="chart-container">
-          <canvas id="timeBlocksChart"></canvas>
-        </div>
-        
-        <h3 class="section-title">Time Blocks Distribution</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Time Block</th>
-              <th>Count</th>
-              <th>Percentage</th>
-              <th>Visual</th>
-            </tr>
-          </thead>
-          <tbody id="timeBlocksTable">
-            <!-- Will be populated by JavaScript -->
-          </tbody>
-        </table>
-        
-        <h3 class="section-title">Time Block Comparison</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="timeBlockComparisonChart"></canvas>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <h4>Key Insights</h4>
-            <ul id="timeBlockInsights">
-              <!-- Will be populated by JavaScript -->
-            </ul>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Daily Patterns Tab -->
-      <div class="tab-pane fade" id="daily" role="tabpanel" aria-labelledby="daily-tab">
-        <h3 class="section-title">Daily Arrival Patterns</h3>
-        <p>Analysis of how arrival patterns differ by day of the month.</p>
-        
-        <div class="chart-container">
-          <canvas id="dailyMeanTimeChart"></canvas>
-        </div>
-        
-        <h3 class="section-title">Daily Statistics</h3>
-        <div id="dailyStatsCards">
-          <!-- Will be populated by JavaScript -->
-        </div>
-        
-        <h3 class="section-title">Daily Comparisons</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="dailyConcentrationChart"></canvas>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="dailyTotalChart"></canvas>
-            </div>
-          </div>
-        </div>
-        
-        <h3 class="section-title">Key Observations</h3>
-        <ul id="dailyObservations">
-          <!-- Will be populated by JavaScript -->
-        </ul>
-      </div>
-      
-      <!-- Circular Statistics Tab -->
-      <div class="tab-pane fade" id="circular" role="tabpanel" aria-labelledby="circular-tab">
-        <h3 class="section-title">Circular Statistics Explained</h3>
-        <p>Circular statistics are specialized methods for analyzing cyclic data like time of day.</p>
-        
-        <div class="chart-container">
-          <canvas id="circularHistogramChart"></canvas>
-        </div>
-        
-        <h3 class="section-title">Concentration and Variance</h3>
-        <div class="row">
-          <div class="col-md-6">
-            <table>
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>Value</th>
-                  <th>Interpretation</th>
-                </tr>
-              </thead>
-              <tbody id="concentrationTable">
-                <!-- Will be populated by JavaScript -->
-              </tbody>
-            </table>
-          </div>
-          <div class="col-md-6">
-            <div class="chart-container-small">
-              <canvas id="varianceChart"></canvas>
-            </div>
-          </div>
-        </div>
-        
-        <h3 class="section-title">Distribution Symmetry</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Metric</th>
-              <th>Value</th>
-              <th>Interpretation</th>
-            </tr>
-          </thead>
-          <tbody id="symmetryTable">
-            <!-- Will be populated by JavaScript -->
-          </tbody>
-        </table>
-        
-        <div class="stat-methods">
-          <h3 class="section-title">Further Reading:</h3>
-          <ul>
-            <li>Fisher, N.I. (1993). Statistical Analysis of Circular Data. Cambridge University Press.</li>
-            <li>Jammalamadaka, S.R., & SenGupta, A. (2001). Topics in Circular Statistics. World Scientific.</li>
-            <li>Mardia, K.V., & Jupp, P.E. (2000). Directional Statistics. Wiley.</li>
-            <li>Batschelet, E. (1981). Circular Statistics in Biology. Academic Press.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
+            <p class="interaction-guide">
+                <i class="fas fa-info-circle"></i> 
+                Hover over segments to see details, click to select for more information.
+                Toggle between view modes to explore different perspectives.
+            </p>
+        </section>
+    </main>
     
     <footer>
-      <p>ETD Circular Statistical Analysis | <span id="footerDate"></span></p>
+        <div class="container">
+            <p>&copy; 2025 Circular Analysis Project | Data visualization created with D3.js</p>
+            <p>
+                <a href="https://github.com/yourusername/your-repo" target="_blank" rel="noopener">
+                    <i class="fab fa-github"></i> View source code
+                </a>
+            </p>
+        </div>
     </footer>
-  </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-  <script src="app.js"></script>
+    <!-- Data and JavaScript -->
+    <script src="js/data.js"></script>
+    <script src="js/chart.js"></script>
 </body>
 </html>
