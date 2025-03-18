@@ -1,4 +1,5 @@
 // This makes the data available globally as circularStatsData
+
 const circularStatsData = {
   "summary": {
     "meanDirection": {
