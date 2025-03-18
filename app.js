@@ -311,6 +311,7 @@ const CircularStatsRoseChart = () => {
     // Title
     React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Hourly Activity Rose Chart'),
     React.createElement('p', { className: 'text-gray-600 mb-4' }, 'Circular Statistics Analysis from March 2025'),
+    React.createElement('p', { className: 'text-gray-600 mb-4' }, 'This visualisation presents hourly allocation data analysed using circular statistics. Circular statistics is a specialised field of statistics that deals with data points distributed on a circle, such as directions or cyclic time data (hours of the day)'),
     
     // Controls
     React.createElement(
