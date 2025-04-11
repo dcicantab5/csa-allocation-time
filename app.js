@@ -742,9 +742,9 @@ const CircularStatsRoseChart = () => {
     { className: 'flex flex-col items-center' },
     // Title
     React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Plain Language Summary'),
-    React.createElement('p', { className: 'text-gray-600 mb-4' }, 'Circular Statistics Analysis from March 2025'),
-    React.createElement('p', { className: 'text-gray-600 mb-6' }, 'This visualisation presents hourly allocation data analysed using circular statistics'),
-    React.createElement('p', { className: 'text-gray-600 mb-6' }, 'Circular statistics is a specialised field of statistics that deals with data points distributed on a circle, such as directions or cyclic time data (hours of the day)'),
+    React.createElement('p', { className: 'text-gray-600 mb-4' }, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
+    React.createElement('p', { className: 'text-gray-600 mb-6' }, 'What We Studied'),
+    React.createElement('p', { className: 'text-gray-600 mb-6' }, 'We wanted to understand when nursing staff in the bed management unit typically allocate beds to patients throughout the day and night, and whether these patterns change on different days. By analyzing data from nine days in March 2025, we tracked exactly when 558 bed allocation activities occurred at our urban hospital.'),
     )
   );
 };
