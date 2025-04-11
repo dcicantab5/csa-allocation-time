@@ -734,6 +734,7 @@ const CircularStatsRoseChart = () => {
         'Hover over segments to see details, click to select an hour for more information. ' +
         'Toggle between view modes to explore different perspectives of the data.'
       )
+      )
   );
 };
 
