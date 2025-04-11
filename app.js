@@ -733,7 +733,16 @@ const CircularStatsRoseChart = () => {
       React.createElement('p', { className: 'mt-3 text-xs text-gray-600' },
         'Hover over segments to see details, click to select an hour for more information. ' +
         'Toggle between view modes to explore different perspectives of the data.'
-      )
+      ),
+      React.createElement(
+    'div',
+    { className: 'flex flex-col items-center' },
+    // Title
+    React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Plain Language Summary'),
+    React.createElement('h3', { className: 'text-gray-600 mb-4' }, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
+    React.createElement('h3', { className: 'text-gray-600 mb-6' }, 'What We Studied'),
+    React.createElement('p', { className: 'text-gray-600 mb-6' }, 'Circular statistics is a specialised field of statistics that deals with data points distributed on a circle, such as directions or cyclic time data (hours of the day)'),
+    
     )
   );
 };
