@@ -736,17 +736,101 @@ const CircularStatsRoseChart = () => {
       )
       ),
     
-    //Plain Language Summary Section
-    React.createElement(
+    // Plain Language Summary Section
+React.createElement(
+  'div',
+  { className: 'flex flex-col items-start' },
+  // Title
+  React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Plain Language Summary'),
+  React.createElement('h3', { className: 'text-xl font-bold text-gray-600 mb-2'}, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
+  
+  // What We Studied
+  React.createElement('h4', { className: 'italic text-gray-600 mb-2' }, 'What We Studied'),
+  React.createElement('p', { className: 'text-gray-600 mb-6' }, 'We wanted to understand when nursing staff in the bed management unit typically allocate beds to patients throughout the day and night, and whether these patterns change on different days. By analyzing data from nine days in March 2025, we tracked exactly when 558 bed allocation activities occurred at our urban hospital.'),
+  
+  // What We Found
+  React.createElement('h4', { className: 'italic text-gray-600 mb-2' }, 'What We Found'),
+  React.createElement(
     'div',
-    { className: 'flex flex-col items-start' },
-    // Title
-    React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Plain Language Summary'),
-    React.createElement('h3', { className: 'text-xl font-bold text-gray-600 mb-2'}, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
-    React.createElement('h4', { className: 'text-xl italic text-gray-600 mb-2' }, 'What We Studied'),
-    React.createElement('p', { className: 'text-gray-600 mb-6' }, 'We wanted to understand when nursing staff in the bed management unit typically allocate beds to patients throughout the day and night, and whether these patterns change on different days. By analyzing data from nine days in March 2025, we tracked exactly when 558 bed allocation activities occurred at our urban hospital.'),
+    { className: 'text-gray-600 mb-4' },
+    // Time of Day Matters section
+    React.createElement(
+      'p', 
+      { className: 'mb-2' },
+      React.createElement('strong', null, 'Time of Day Matters:'),
+      ' Bed allocation activities aren\'t evenly spread throughout the day. Instead, we found clear patterns:'
+    ),
+    React.createElement(
+      'ul',
+      { className: 'ml-5 mb-4' },
+      React.createElement(
+        'li',
+        { className: 'mb-2' },
+        React.createElement('strong', null, 'Evening Peak (8-9 PM):'),
+        ' This was the busiest time, with 49 bed allocations. This often coincides with evening admissions and patient transfers from emergency departments to inpatient wards.'
+      ),
+      React.createElement(
+        'li',
+        { className: 'mb-2' },
+        React.createElement('strong', null, 'Midnight Rush (12-1 AM):'),
+        ' The second busiest period (38 allocations) occurs when night shift staff must find beds for late admissions and emergency cases.'
+      ),
+      React.createElement(
+        'li',
+        { className: 'mb-2' },
+        React.createElement('strong', null, 'Afternoon Surge (5-6 PM):'),
+        ' Another busy time (37 allocations) when day shift ends and evening shift begins, often involving handovers and managing new admissions.'
+      ),
+      React.createElement(
+        'li',
+        { className: 'mb-2' },
+        React.createElement('strong', null, 'Quieter Mornings:'),
+        ' Fewer bed allocations (13-22) typically occur in the morning hours, possibly because most overnight decisions have been made.'
+      )
+    ),
+    React.createElement(
+      'p',
+      { className: 'mb-4' },
+      React.createElement('strong', null, 'Different Days Show Different Patterns:'),
+      ' The typical time when beds are allocated varied significantly across different days. Some days saw more afternoon allocations, while others had more late-night bed management activity.'
     )
-  );
+  ),
+  
+  // Why This Matters
+  React.createElement('h4', { className: 'italic text-gray-600 mb-2' }, 'Why This Matters'),
+  React.createElement(
+    'p',
+    { className: 'text-gray-600 mb-2' },
+    'Understanding these patterns helps hospitals:'
+  ),
+  React.createElement(
+    'ul',
+    { className: 'text-gray-600 ml-5 mb-4' },
+    React.createElement('li', { className: 'mb-1' }, 'Schedule appropriate nursing staff in the bed management unit when they\'re most needed'),
+    React.createElement('li', { className: 'mb-1' }, 'Optimize bed turnover and patient flow throughout the day'),
+    React.createElement('li', { className: 'mb-1' }, 'Reduce waiting times for patients needing beds during peak allocation hours'),
+    React.createElement('li', { className: 'mb-1' }, 'Improve coordination between emergency departments, operating rooms, and inpatient units')
+  ),
+  React.createElement(
+    'p',
+    { className: 'text-gray-600 mb-2' },
+    'For hospital administrators and staff, this research might eventually help:'
+  ),
+  React.createElement(
+    'ul',
+    { className: 'text-gray-600 ml-5 mb-4' },
+    React.createElement('li', { className: 'mb-1' }, 'Create more efficient nurse staffing schedules for the bed management unit'),
+    React.createElement('li', { className: 'mb-1' }, 'Develop strategies to balance bed allocation workloads throughout the day'),
+    React.createElement('li', { className: 'mb-1' }, 'Identify potential bottlenecks in the patient flow process'),
+    React.createElement('li', { className: 'mb-1' }, 'Improve overall hospital efficiency and patient care')
+  ),
+  React.createElement(
+    'p',
+    { className: 'text-gray-600 mb-2' },
+    'Our findings clearly show that bed allocation activities follow predictable patterns throughout the day, and hospitals can use this information to better manage their bed resources and staff workload.'
+  )
+)
+      );
 };
 
 // Render the app
