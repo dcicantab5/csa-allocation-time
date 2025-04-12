@@ -742,8 +742,8 @@ const CircularStatsRoseChart = () => {
     { className: 'flex flex-col items-center' },
     // Title
     React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Plain Language Summary'),
-    React.createElement('h3', { className: 'text-gray-600 mb-4' }, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
-    React.createElement('h4', { className: 'text-gray-600 mb-6' }, 'What We Studied'),
+    React.createElement('h3', { className: 'text-gray-600 mb-4 text-xl font-bold'}, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
+    React.createElement('h4', { className: 'text-gray-600 mb-6 text-xl italic' }, 'What We Studied'),
     React.createElement('p', { className: 'text-gray-600 mb-6' }, 'We wanted to understand when nursing staff in the bed management unit typically allocate beds to patients throughout the day and night, and whether these patterns change on different days. By analyzing data from nine days in March 2025, we tracked exactly when 558 bed allocation activities occurred at our urban hospital.'),
     )
   );
