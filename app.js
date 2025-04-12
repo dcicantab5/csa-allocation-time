@@ -739,7 +739,7 @@ const CircularStatsRoseChart = () => {
     //Plain Language Summary Section
     React.createElement(
     'div',
-    { className: 'flex flex-col items-left' },
+    { className: 'flex flex-col items-start' },
     // Title
     React.createElement('h2', { className: 'text-2xl font-bold mb-2' }, 'Plain Language Summary'),
     React.createElement('h3', { className: 'text-xl font-bold text-gray-600 mb-2'}, 'When Are Hospital Beds Allocated? Understanding Patterns in Bed Management Activities'),
